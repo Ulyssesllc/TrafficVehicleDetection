@@ -54,7 +54,7 @@ data
     ├── ...
 ```
 daytime: daytime images + daytime labels  
-nighttime: nighttime images + nighttime labels  
+nighttime: nighttime images + nighttime labels (not fixed)  
 daytime_images: daytime images  
 daytime_labels: daytime labels  
 nighttime_images: nighttime images  
@@ -62,7 +62,7 @@ nighttime_labels: nighttime labels before being fixed
 nighttime_labels_updated: nighttime labels after being fixed (4 -> 0, 5 -> 1, 6 -> 2, 7 -> 3)  
 public_test_images: puclic test images  
 all_images: daytime images + nighttime images  
-all_labels: daytime labels + nighttime labels  
+all_labels: daytime labels + nighttime labels (fixed)  
 
 ## Hướng dẫn push code mô hình
 
