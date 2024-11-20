@@ -53,6 +53,16 @@ data
     ├── cam_03_00001_jpg.rf.32cbfc258530ee25cfa4ef0906992538.txt
     ├── ...
 ```
+daytime: daytime images + daytime labels  
+nighttime: nighttime images + nighttime labels  
+daytime_images: daytime images  
+daytime_labels: daytime labels  
+nighttime_images: nighttime images  
+nighttime_labels: nighttime labels before being fixed  
+nighttime_labels_updated: nighttime labels after being fixed (4 -> 0, 5 -> 1, 6 -> 2, 7 -> 3)  
+public_test_images: puclic test images  
+all_images: daytime images + nighttime images  
+all_labels: daytime labels + nighttime labels  
 
 ## Hướng dẫn push code mô hình
 
