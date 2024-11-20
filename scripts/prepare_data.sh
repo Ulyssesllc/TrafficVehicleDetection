@@ -1,16 +1,21 @@
 mkdir data/daytime_images
 mkdir data/nighttime_images
 
-python move_file.py --source_folder data/daytime \
+python copy_file.py --source_folder data/daytime \
                     --destination_folder data/daytime_labels \
                     --extension '.txt'
 
-python move_file.py --source_folder data/nighttime \
+python copy_file.py --source_folder data/nighttime \
                     --destination_folder data/nighttime_labels \
                     --extension '.txt'
 
-cp -a data/daytime/. data/daytime_images
-cp -a data/nighttime/. data/nighttime_images
+python copy_file.py --source_folder data/daytime \
+                    --destination_folder data/daytime_images \
+                    --extension '.jpg'
+
+python copy_file.py --source_folder data/nighttime \
+                    --destination_folder data/nighttime_images \
+                    --extension '.jpg'
 
 python change_labels.py --annotation_folder_path data/nighttime_labels \
                         --output_folder_path data/nighttime_labels_updated
