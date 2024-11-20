@@ -9,6 +9,51 @@ Repo của đội thi (insert name here) tại SoICT 2024 NAVER Track - Vehicle 
 2. Chạy `pip install -r requirements.txt`
 3. Download data bằng cách chạy script `bash scripts/download_data.sh`
 
+## Cấu trúc tổ chức thư mục của data
+```bash
+data
+└──daytime
+    ├── cam_01_00001.jpg
+    ├── cam_01_00001.txt
+    ├── ...
+└──nighttime
+    ├── cam_03_00001_jpg.rf.32cbfc258530ee25cfa4ef0906992538.jpg
+    ├── cam_03_00001_jpg.rf.32cbfc258530ee25cfa4ef0906992538.txt
+    ├── ...
+└──daytime_images
+    ├── cam_01_00001.jpg
+    ├── cam_01_00002.jpg
+    ├── ...
+└──daytime_labels
+    ├── cam_01_00001.txt
+    ├── cam_01_00002.txt
+    ├── ...
+└──nighttime_images
+    ├── cam_03_00001_jpg.rf.32cbfc258530ee25cfa4ef0906992538.jpg
+    ├── cam_03_00001_jpg.rf.a1bdf98a1a9c74a1b011d24332ea8c9a.jpg
+    ├── ...
+└──nighttime_labels
+    ├── cam_03_00001_jpg.rf.a1bdf98a1a9c74a1b011d24332ea8c9a.txt
+    ├── cam_03_00001_jpg.rf.a1bdf98a1a9c74a1b011d24332ea8c9a.txt
+    ├── ...
+└──nighttime_labels_updated
+    ├── cam_03_00001_jpg.rf.a1bdf98a1a9c74a1b011d24332ea8c9a.txt
+    ├── cam_03_00001_jpg.rf.a1bdf98a1a9c74a1b011d24332ea8c9a.txt
+    ├── ...
+└──public_test_images
+    ├── cam_08_00500_jpg.rf.5ab59b5bcda1d1fad9131385c5d64fdb.jpg
+    ├── cam_08_00500_jpg.rf.5151346676b87b9d97d375b50e60a9b8.jpg
+    ├── ...
+└──all_images
+    ├── cam_01_00001.jpg
+    ├── cam_03_00001_jpg.rf.32cbfc258530ee25cfa4ef0906992538.jpg
+    ├── ...
+└──all_labels
+    ├── cam_01_00001.txt
+    ├── cam_03_00001_jpg.rf.32cbfc258530ee25cfa4ef0906992538.txt
+    ├── ...
+```
+
 ## Hướng dẫn push code mô hình
 
 1. Ngay lập tức, mọi người tự tạo branch riêng cho mình, đặt tên viết tắt rồi checkout và thực hiện thử nghiệm trên các nhánh.
