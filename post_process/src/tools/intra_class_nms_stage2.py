@@ -63,7 +63,7 @@ def process_class_annotations(annotations, iou_threshold=0.95):
     
     return keep
 
-def process_annotations(input_file, output_dir, iou_threshold=0.95):
+def process_annotations(input_file, output_file, iou_threshold=0.95):
     """
     Process YOLO annotation file and create separate output files for each image,
     performing class-specific NMS.
@@ -77,7 +77,7 @@ def process_annotations(input_file, output_dir, iou_threshold=0.95):
         dict: Statistics for each file showing original and final box counts
     """
     # Create output directory if it doesn't exist
-    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+    # pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
     
     # Read annotations and group by filename
     annotations_by_file = defaultdict(lambda: defaultdict(list))
@@ -86,6 +86,7 @@ def process_annotations(input_file, output_dir, iou_threshold=0.95):
             filename, class_id, x, y, w, h, conf = line.strip().split()
             x, y, w, h, conf = map(float, [x, y, w, h, conf])
             class_id = int(class_id)
+            if filename.startswith('src_2') and class_id == 0: continue
             annotations_by_file[filename][class_id].append({
                 'box': np.array([x, y, w, h]),
                 'confidence': conf,
@@ -94,7 +95,7 @@ def process_annotations(input_file, output_dir, iou_threshold=0.95):
     
     stats = {}
 
-    output_file = os.path.join(output_dir, f"predict_final.txt")
+    # output_file = os.path.join(output_dir, f"predict.txt")
     f = open(output_file, 'w+')
     
     for filename, class_annotations in annotations_by_file.items():
@@ -142,16 +143,16 @@ def process_annotations(input_file, output_dir, iou_threshold=0.95):
 def parse_opt():
     parser = argparse.ArgumentParser(description="Intra-class Non-max Suppression Script. Please note that this will separate predict.txt back to separate files by filenames.")
     parser.add_argument('--input_file', type=str, help="Input predict.txt file.", required=True)
-    parser.add_argument('--output_dir', type=str, default='.', help="Output directory of the YOLO prediction files.")
+    parser.add_argument('--output_file', type=str, default='.', help="Output of the YOLO prediction files.")
     parser.add_argument('--iou_thresh', type=float, default=0.8, help="IoU threshold to prune bounding boxes.")
     opt = parser.parse_args()
     return opt
 
 def main(opt):
     input_file = opt.input_file
-    output_dir = opt.output_dir
+    output_file = opt.output_file
     iou_thresh = opt.iou_thresh
-    stats = process_annotations(input_file, output_dir, iou_thresh)
+    stats = process_annotations(input_file, output_file, iou_thresh)
 
 if __name__ == "__main__":
     opt = parse_opt()
