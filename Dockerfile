@@ -103,7 +103,3 @@ RUN pip install -r requirements.txt
 
 RUN cd models/mmdetection \ 
     && pip install -r requirements.txt
-
-
-RUN cd models/mmdetection \ 
-    && pip install -r requirements.txt
