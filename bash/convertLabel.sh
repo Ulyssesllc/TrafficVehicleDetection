@@ -1,0 +1,1 @@
+python convert_label.py --input /data/nighttime --output /data/nighttime_fixed
