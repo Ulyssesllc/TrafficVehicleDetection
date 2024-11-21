@@ -1,8 +1,9 @@
 CONFIG=$1
 CHECKPOINT=$2
+DEVICE=$3
 
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
-CUDA_VISIBLE_DEVICES=5 python $(dirname "$0")/test.py \
+CUDA_VISIBLE_DEVICES=$DEVICE python $(dirname "$0")/test.py \
     $CONFIG \
     $CHECKPOINT \
-    ${@:3}
+    --launcher pytorch ${@:4}
