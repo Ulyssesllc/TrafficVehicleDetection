@@ -1,4 +1,4 @@
-gdown==5.2.0
-pyyaml==6.0.2
-tqdm==4.67.0
-scikit-learn==1.5.2
+gdown
+pyyaml
+tqdm
+scikit-learn

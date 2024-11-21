@@ -1,16 +1,22 @@
-ARG PYTORCH="1.12.1"
-ARG CUDA="11.3"
-ARG CUDNN="8"
+# ARG PYTORCH="1.12.1"
+# ARG CUDA="11.3"
+# ARG CUDNN="8"
 
-FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
+# FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
 
-RUN apt-key del 7fa2af80 \
-    && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub \
-    && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
+FROM nvidia/cuda:11.3.1-devel-ubuntu20.04
 
-ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
-ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
-ENV CMAKE_PREFIX_PATH="(dirname(which conda))/../"
+# RUN apt-key del 7fa2af80 \
+#     && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub \
+#     && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
+
+# ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
+# ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+# ENV CMAKE_PREFIX_PATH="(dirname(which conda))/../"
+
+# RUN apt-get update && apt-get install -y ffmpeg libsm6 libxext6 git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 wget \
+#     && apt-get clean \
+#     && rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -79,16 +85,8 @@ RUN set -ex \
 
 RUN pyenv global 3.8
 
-# ENV PYTHON_VERSION=3.8.20
-# RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
-#     tar xvf Python-${PYTHON_VERSION}.tgz && \
-#     cd Python-${PYTHON_VERSION} && \
-#     ./configure --enable-optimizations && \
-#     make -j$(nproc) && \
-#     make altinstall
-
-# RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.8 1
-# RUN update-alternatives --config python3
+ARG INSTALL_TORCH="pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113"
+RUN bash -c "${INSTALL_TORCH}"
 
 # Install MIM
 RUN pip install openmim
@@ -96,7 +94,7 @@ RUN mim install "mmengine==0.10.5" "mmcv==2.0.1"
 RUN pip install gdown 
 
 # Install MMPretrain
-RUN conda clean --all
+# RUN conda clean --all
 # RUN git clone https://github.com/lvmlvm/IAI_SOICT_VecDet
 COPY . ./IAI_SOICT_VecDet
 WORKDIR ./IAI_SOICT_VecDet
@@ -106,3 +104,6 @@ RUN pip install -r requirements.txt
 RUN cd models/mmdetection \ 
     && pip install -r requirements.txt
 
+
+RUN cd models/mmdetection \ 
+    && pip install -r requirements.txt
