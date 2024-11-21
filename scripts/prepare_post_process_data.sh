@@ -1,4 +1,9 @@
-predict_file="predict_18.txt"
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <predict_file>"
+  exit 1
+fi
+
+predict_file="$1"
 
 rm -rf post_process/data_reorganized
 
