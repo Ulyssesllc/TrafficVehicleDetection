@@ -35,5 +35,5 @@ python ./data_augmentation/blur.py --input /data/data_augmentation/full_dataset 
 python ./data_augmentation/brightness_adjustment.py --input /data/data_augmentation/full_dataset --output /data/data_augmentation/full_dataset --threshold 170
 python ./data_augmentation/brightness_adjustment.py --input /data/data_augmentation/full_dataset --output /data/data_augmentation/brightness_box --threshold 170
 # Data Augmentation with mosaic
-python mosaic.py --input /data/data_augmentation/full_dataset --output /data/data_augmentation/mosaic --num_images 10000
-python mosaic4img.py --input /data/data_augmentation/full_dataset --output /data/data_augmentation/mosaic --num_images 10000
+python ./data_augmentation/mosaic.py --input /data/data_augmentation/full_dataset --output /data/data_augmentation/mosaic --num_images 10000
+python ./data_augmentation/mosaic4img.py --input /data/data_augmentation/full_dataset --output /data/data_augmentation/mosaic --num_images 10000
