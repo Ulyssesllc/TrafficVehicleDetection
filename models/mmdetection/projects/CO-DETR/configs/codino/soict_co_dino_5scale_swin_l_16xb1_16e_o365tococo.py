@@ -49,8 +49,8 @@ dataset_type = 'CocoDataset'
 train_dataloader = dict(
     batch_size=2, num_workers=1, 
     dataset=dict(
-        ann_file='annotations/augmented_sample_1.json',
-        data_prefix=dict(img='augmented_sample_1_images/'),
+        ann_file='annotations/all_coco.json',
+        data_prefix=dict(img='all_images/'),
         pipeline=train_pipeline,
         type=dataset_type,
         data_root=data_root,
@@ -82,7 +82,7 @@ val_dataloader = dict(
 )
 
 test_dataloader = dict(
-    batch_size=10, num_workers=1,
+    batch_size=2, num_workers=1,
     dataset=dict(
         type=dataset_type,
         data_root=data_root,

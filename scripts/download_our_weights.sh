@@ -1,4 +1,4 @@
 mkdir work_dirs
 cd models/mmdetection/work_dirs
 
-wget 
+gdown 1PRYUSfkSyVqwZNr_o7qMkE-L2AZf_qwn
