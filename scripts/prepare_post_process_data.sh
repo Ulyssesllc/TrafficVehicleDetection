@@ -3,15 +3,17 @@ predict_file="predict_18.txt"
 rm -rf post_process/data_reorganized
 
 mkdir post_process/data_reorganized
+mkdir post_process/data_reorganized/all_cams
 
-mkdir post_process/data_reorganized/images
-mkdir post_process/data_reorganized/full_boxes
-mkdir post_process/data_reorganized/pruned_boxes
+
+mkdir post_process/data_reorganized/all_cams/images
+mkdir post_process/data_reorganized/all_cams/full_boxes
+mkdir post_process/data_reorganized/all_cams/pruned_boxes
 
 echo "==========COPYING TEST SET AND PERFORMING INTER-CLASS NMS=========="
 
 # Copy all images to pre-processing folder
-cp -r "data/public_test_images"/* "post_process/data_reorganized/images"
+cp -r "data/public_test_images"/* "post_process/data_reorganized/all_cams/images"
 
 # Splitting predict.txt into individual YOLO box files
 python post_process/src/tools/intra_class_nms.py --input_file $predict_file \

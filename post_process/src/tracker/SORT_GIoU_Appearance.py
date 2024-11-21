@@ -274,6 +274,8 @@ class Sort(object):
         self.trackers = []
         self.frame_count = 0
 
+        KalmanBoxTracker.count = 0
+
     def update(self, dets=np.empty((0, 5)), feats=np.empty((0, 2048))):
 
         """

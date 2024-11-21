@@ -29,9 +29,9 @@ scene_hierachy = {
     },
 }
 
-full_image_path = os.path.join(data_path, "images")
-full_yolo_path = os.path.join(data_path, "full_boxes")
-prune_yolo_path = os.path.join(data_path, "pruned_boxes")
+full_image_path = os.path.join(data_path, "all_cams", "images")
+full_yolo_path = os.path.join(data_path, "all_cams", "full_boxes")
+prune_yolo_path = os.path.join(data_path, "all_cams", "pruned_boxes")
 
 full_image_list = os.listdir(full_image_path)
 full_yolo_list = os.listdir(full_yolo_path)

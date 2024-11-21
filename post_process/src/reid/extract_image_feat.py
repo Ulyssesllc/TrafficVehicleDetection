@@ -2,7 +2,7 @@
 
 import os
 import sys
-
+import numpy as np
 import torch
 import torchvision.transforms as T
 from PIL import Image
@@ -36,7 +36,57 @@ class ReidFeature:
             ]
         )
 
-    def extract(self, img_list):
+    def extract(self, img_list, batch_size=64):
+        """
+        Extract image features in batches to avoid CUDA memory overflow.
+        Args:
+            img_list (list): List of images to process.
+            batch_size (int): Maximum number of images to process at once.
+        Returns:
+            np.ndarray: Features for all images, shape (N, 2048), where N is the total number of images.
+        """
+        all_features = []
+        num_images = len(img_list)
+
+        for start_idx in range(0, num_images, batch_size):
+            # Get the batch of images
+            end_idx = min(start_idx + batch_size, num_images)
+            batch_imgs = img_list[start_idx:end_idx]
+
+            # Prepare the batch
+            img_batch = []
+            for img in batch_imgs:
+                img = self.val_transforms(img)
+                img = img.unsqueeze(0)
+                img_batch.append(img)
+            img_tensor = torch.cat(img_batch, dim=0)
+
+            with torch.no_grad():
+                img_tensor = img_tensor.to("cuda")
+                flip_feats = self.reid_cfg.TEST.FLIP_FEATS == "yes"
+
+                if flip_feats:
+                    for i in range(2):
+                        if i == 1:
+                            inv_idx = torch.arange(img_tensor.size(3) - 1, -1, -1).long().cuda()
+                            img_tensor = img_tensor.index_select(3, inv_idx)
+                            feat1 = self.model(img_tensor)
+                        else:
+                            feat2 = self.model(img_tensor)
+                    feat = feat2 + feat1
+                else:
+                    feat = self.model(img_tensor)
+
+            # Append features to the result list
+            all_features.append(feat.cpu().detach().numpy())
+
+        # Concatenate all features along the batch dimension
+        all_features = np.concatenate(all_features, axis=0)
+        return all_features
+
+
+    # CUDA of out memory risk
+    def extract_free_batch(self, img_list):
         """Extract image feature with given image path.
         Feature shape (2048,) float32."""
 

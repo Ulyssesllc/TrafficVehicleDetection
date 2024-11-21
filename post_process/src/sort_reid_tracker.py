@@ -5,6 +5,7 @@ from reid.extract_image_feat import ReidFeature
 from PIL import Image
 import os
 import json
+import torch
 import argparse
 
 
@@ -35,12 +36,12 @@ def track_segment(manifest, scene, segment, reid_module, opt):
 
     
     mot_output_folder = f"post_process/data_reorganized/{scene}/{segment}/mot"
-    os.makedirs(mot_output_folder)
+    os.makedirs(mot_output_folder, exist_ok=True)
     mot_output_file = open(f"{mot_output_folder}/mot.txt", mode="w+")
 
     if opt.visualization == "yes":
         mot_viz_folder = f"post_process/data_reorganized/{scene}/{segment}/mot/viz"
-        os.makedirs(mot_viz_folder)
+        os.makedirs(mot_viz_folder, exist_ok=True)
 
     giou_tracker = Sort(max_age=3, min_hits=0, alpha=0.3, giou_threshold=-0.4, reid_threshold=0.6, joint_threshold=1.0)
 
@@ -54,17 +55,17 @@ def track_segment(manifest, scene, segment, reid_module, opt):
         filename = image_paths[idx].split('/')[-1]
 
         boxes = []
-        feats = []
+        crop_images = []
 
         for box in current_detections:
             cls, x1, y1, x2, y2 = box
+            if filename.startswith("src_2") and cls == 0: continue
             boxes.append([x1, y1, x2, y2, 0])
+        
+            crop_images.append(Image.fromarray(current_img[y1:y2, x1:x2]))
 
-            cropped_box = Image.fromarray(current_img[y1:y2, x1:x2])
-            reid_feature = reid_module.extract([cropped_box])[0]
-            feats.append(reid_feature)
-
-        tracks = giou_tracker.update(np.array(boxes), np.array(feats))
+        feats = reid_module.extract(crop_images, 80)
+        tracks = giou_tracker.update(np.array(boxes), feats)
 
         for track in tracks:
             x1, y1, x2, y2, obj_id = list(map(int, list(track)))
@@ -102,6 +103,7 @@ def main(opt):
         for scene in manifest.keys():
             for segment in manifest[scene].keys():
                 track_segment(manifest, scene, segment, reid_module, opt)
+                torch.cuda.empty_cache()
     else:
         track_segment(manifest, scene_to_track, segment_to_track, reid_module, opt)
 

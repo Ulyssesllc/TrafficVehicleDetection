@@ -139,7 +139,7 @@ def process_annotations(input_file, output_dir, iou_threshold=0.8):
 def parse_opt():
     parser = argparse.ArgumentParser(description="Inter-class Non-max Suppression Script. Please note that this will separate predict.txt back to separate files by filenames.")
     parser.add_argument('--input_file', type=str, help="Input predict.txt file.", required=True)
-    parser.add_argument('--output_dir', type=str, default='post_process/data_reorganized/pruned_boxes', help="Output directory of the YOLO prediction files.")
+    parser.add_argument('--output_dir', type=str, default='post_process/data_reorganized/all_cams/pruned_boxes', help="Output directory of the YOLO prediction files.")
     parser.add_argument('--iou_thresh', type=float, default=0.8, help="IoU threshold to prune bounding boxes.")
     opt = parser.parse_args()
     return opt
