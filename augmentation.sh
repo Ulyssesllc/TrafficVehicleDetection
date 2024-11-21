@@ -24,6 +24,8 @@ python ./data_augmentation/rename.py --input /data/data_augmentation/brightness_
 
 # Merge images and labels into 1 folder
 python ./data_augmentation/movefiles.py /data/daytime /data/nighttime /data/data_augmentation/full_dataset
+# Convert labels for full dataset 
+python ./data_augmentation/convert_labels.py /data/data_augmentation/full_dataset
 # Delete cam_05 scences
 python ./data_augmentation/remove_files.py --input /data/data_augmentation/full_dataset --output /data/data_augmentation/full_dataset
 # Remove white line box
