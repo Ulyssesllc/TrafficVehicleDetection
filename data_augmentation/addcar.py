@@ -4,10 +4,7 @@ import shutil
 from PIL import Image
 import random
 import numpy as np
-
-# Đường dẫn đến thư mục chứa ảnh gốc và thư mục lưu ảnh đã dán xe
-folder = '/Users/kaiser/Documents/SOICT/data_aug/night_flip'
-target_folder = '/Users/kaiser/Documents/SOICT/car_flip_08'
+import argparse
 
 # Từ điển để lưu thông tin annotation và các điểm đã được ghi chú
 annotation = {}
@@ -73,13 +70,22 @@ def yolo_process(x, y, w, h, img_width, img_height):
 
 iou_threshold = 0.005  # Ngưỡng IoU
 
-def car_process(input_folder, output_folder):
+def car_process(input_folder, output_car_3, output_car_5, output_car_8, output_folder):
     # Đọc và xử lý các bounding boxes từ các file annotation
     for filename in os.listdir(input_folder):
-        if filename.endswith('.jpg') and filename.startswith('cam_08'):
+        if filename.endswith('.jpg'):
+            if filename.startswith('cam_03'):
+                os.makedirs(output_car_3, exist_ok=True)
+                output_folder_car = output_car_3
+            elif filename.startswith('cam_05'):
+                os.makedirs(output_car_5, exist_ok=True)
+                output_folder_car = output_car_5
+            elif filename.startswith('cam_08'):
+                os.makedirs(output_car_8, exist_ok=True)
+                output_folder_car = output_car_8
             count = 0
-            txt_file = os.path.join(folder, filename.replace('.jpg', '.txt'))
-            image_file = os.path.join(folder, filename)
+            txt_file = os.path.join(input_folder, filename.replace('.jpg', '.txt'))
+            image_file = os.path.join(input_folder, filename)
             image = cv2.imread(image_file)
             height_img, width_img = image.shape[:2]
 
@@ -87,7 +93,7 @@ def car_process(input_folder, output_folder):
                 for line in file.readlines():
                     elements = line.strip().split()
                     class_id, center_x, center_y, width, height = map(float, elements)
-                    if class_id in [5, 6, 7]:
+                    if class_id in [1, 2, 3]:
                         count += 1
                         x1 = int((center_x - width / 2) * width_img)
                         y1 = int((center_y - height / 2) * height_img)
@@ -95,7 +101,7 @@ def car_process(input_folder, output_folder):
                         y2 = int((center_y + height / 2) * height_img)
                         name, ext = os.path.splitext(filename)
                         new_name = f"{name}_{count}{ext}"
-                        cropped_image_path = os.path.join(output_folder, new_name)
+                        cropped_image_path = os.path.join(output_folder_car, new_name)
                         cropped_image = image[y1:y2, x1:x2]
                         cv2.imwrite(cropped_image_path, cropped_image)
 
@@ -112,21 +118,41 @@ def car_process(input_folder, output_folder):
                             "x": float(center_x * width_img),
                             "y": float(center_y * height_img)
                         }
+                    elif class_id == 0:
+                        count += 1
+                        name_bike, ext_bike = os.path.splitext(filename)
+                        dict_name_bike = f"{name_bike}_{count}"
+                        annotation[dict_name_bike] = {
+                            "class_id": int(class_id),
+                            "x": float(center_x * width_img),
+                            "y": float(center_y * height_img),
+                            "width": float(width * width_img),
+                            "height": float(height * height_img)
+                        }
+                        noted[dict_name_bike] = {
+                            "x": float(center_x * width_img),
+                            "y": float(center_y * height_img)
+                        }
 
-    # Xử lý việc dán xe vào ảnh nền và lưu vào thư mục chung
-    img_folder = '/Users/kaiser/Documents/SOICT/data_aug/night_flip'
-    output_path = '/Users/kaiser/Documents/SOICT/test_flip_08'
-    os.makedirs(output_path, exist_ok=True)
+    os.makedirs(output_folder, exist_ok=True)
 
-    for filename in os.listdir(img_folder):
-        if filename.endswith('.jpg') and filename.startswith('cam_08'):
-            img_file = os.path.join(img_folder, filename)
+    for filename in os.listdir(input_folder):
+        if filename.endswith('.jpg'):
+            img_file = os.path.join(input_folder, filename)
             img = cv2.imread(img_file)
             height_img, width_img = img.shape[:2]
             bg_img_1 = img.copy()
 
             # Lấy danh sách các ảnh xe để dán lên nền
-            car_files = [os.path.join(output_folder, f) for f in os.listdir(output_folder) if f.endswith('.jpg')]
+            if filename.startswith('cam_03'):
+                car_folder = output_car_3
+            elif filename.startswith('cam_05'):
+                car_folder = output_car_5
+            elif filename.startswith('cam_08'):
+                car_folder = output_car_8
+    
+            car_files = [os.path.join(car_folder, f) for f in os.listdir(car_folder) if f.endswith('.jpg')]
+            # car_files = [os.path.join(output_folder_car, f) for f in os.listdir(output_folder_car) if f.endswith('.jpg')]
             pasted_boxes = []
             file_name = os.path.basename(filename)
             name, ext = os.path.splitext(file_name)
@@ -139,13 +165,10 @@ def car_process(input_folder, output_folder):
                     box = (item_img["x"], item_img["y"], item_img["width"], item_img["height"])
                     pasted_boxes.append(box)
 
-            txt_path_new = os.path.join(output_path, filename.replace('.jpg', '.txt'))
-            txt_path_old = os.path.join(img_folder, filename.replace('.jpg', '.txt'))
+            txt_path_new = os.path.join(output_folder, filename.replace('.jpg', '.txt'))
+            txt_path_old = os.path.join(input_folder, filename.replace('.jpg', '.txt'))
             with open(txt_path_old, 'r') as f_old, open(txt_path_new, 'w') as f_new:
-                for line in f_old.readlines():
-        # Kiểm tra ký tự đầu tiên của dòng (sau khi loại bỏ khoảng trắng)
-                    if not line.strip().startswith('4'):  # Kiểm tra nếu dòng không bắt đầu bằng '4'
-                        f_new.write(line)
+                    f_new.write(f_old.read())
             
             pasted_count = 0
             max_attempts = 50
@@ -194,10 +217,25 @@ def car_process(input_folder, output_folder):
                     else:
                         continue
 
-            # Lưu ảnh và file txt trong cùng thư mục output_path
-            output_file = os.path.join(output_path, filename)
+            # Lưu ảnh và file txt trong cùng thư mục output_folder
+            output_file = os.path.join(output_folder, filename)
             cv2.imwrite(output_file, bg_img_1)
-            print(f"Saved processed image and annotation to {output_path}")
+            print(f"Saved processed image and annotation to {output_folder}")
 
-car_process(folder, target_folder)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Add car in image to improve performance for car")
+    parser.add_argument('--input', type=str, help="Path to the input dataset folder")
+    parser.add_argument('--output', type=str, help="Path to the output folder")
+    parser.add_argument('--outcar3', type=str, help="Path to the image car of cam 3")
+    parser.add_argument('--outcar5', type=str, help="Path to the image car of cam 5")
+    parser.add_argument('--outcar8', type=str, help="Path to the image car of cam 8")
+    args = parser.parse_args()
+
+    dataset_folder = args.input
+    output_folder = args.output
+    outcar3 = args.outcar3
+    outcar5 = args.outcar5
+    outcar8 = args.outcar8
+
+    car_process(dataset_folder, outcar3, outcar5, outcar8, output_folder)
 
