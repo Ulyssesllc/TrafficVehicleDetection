@@ -112,8 +112,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process YOLO dataset images and annotations.")
-    parser.add_argument("--input-folder", required=True, help="Path to the input folder containing images and labels.")
-    parser.add_argument("--output-folder", required=True, help="Path to the output folder to save processed images and labels.")
+    parser.add_argument("--input", required=True, help="Path to the input folder containing images and labels.")
+    parser.add_argument("--output", required=True, help="Path to the output folder to save processed images and labels.")
     parser.add_argument("--scale", type=float, default=1.05, help="Scale factor for expanding/shrinking bounding boxes.")
     parser.add_argument("--kernel-size", type=int, default=2, help="Kernel size for erosion.")
     parser.add_argument("--prefix", default="cam_08", help="Prefix of filenames to process (e.g., 'cam_08').")

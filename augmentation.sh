@@ -22,13 +22,14 @@ python data_augmentation/addprefix.py --input data/data_augmentation/brightness_
 
 
 # Merge images and labels into 1 folder
-python data_augmentation/movefiles.py data/daytime data/nighttime data/data_augmentation/full_dataset
+python data_augmentation/movefiles.py --source_folder1 data/daytime --source_folder2 data/nighttime --destination_folder data/data_augmentation/full_dataset
 # Convert labels for full dataset 
-python data_augmentation/convert_labels.py data/data_augmentation/full_dataset
+python data_augmentation/convert_labels.py --input data/data_augmentation/full_dataset
 # Delete cam_05 scences
-python data_augmentation/remove_files.py data/data_augmentation/full_dataset 
+python data_augmentation/remove_files.py --input data/data_augmentation/full_dataset 
 # Remove white line box
-python data_augmentation/remove_wl.py data/data_augmentation/full_dataset data/data_augmentation/full_dataset
+python data_augmentation/remove_wl.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset --prefix "cam_03"
+python data_augmentation/remove_wl.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset --prefix "cam_08"
 # Generate images with blurred boxes
 python data_augmentation/blur.py --input data/data_augmentation/full_dataset --output data/data_augmentation/blur
 python data_augmentation/blur.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset

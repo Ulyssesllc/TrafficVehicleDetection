@@ -10,7 +10,7 @@ def delete_brightness_files(folder_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Delete cam_05 scence")
     parser.add_argument(
-        "folder_path",
+        "--input",
         type=str,
         help="path to folder"
     )
