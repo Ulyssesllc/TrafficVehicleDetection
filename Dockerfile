@@ -105,6 +105,7 @@ RUN bash scripts/download_data.sh
 RUN bash scripts/download_augmented_data.sh
 RUN bash scripts/download_detection_pretrained_weights.sh
 RUN bash scripts/download_our_weights.sh
+RUN bash scripts/download_reid_weight.sh
 
 RUN cd models/mmdetection \ 
     && pip install -r requirements.txt
