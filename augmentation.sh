@@ -27,15 +27,15 @@ python data_augmentation/movefiles.py data/daytime data/nighttime data/data_augm
 # Convert labels for full dataset 
 python data_augmentation/convert_labels.py data/data_augmentation/full_dataset
 # Delete cam_05 scences
-python data_augmentation/remove_files.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset
+python data_augmentation/remove_files.py data/data_augmentation/full_dataset 
 # Remove white line box
 python data_augmentation/remove_wl.py data/data_augmentation/full_dataset data/data_augmentation/full_dataset
 # Generate images with blurred boxes
-python data_augmentation/blur.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset
 python data_augmentation/blur.py --input data/data_augmentation/full_dataset --output data/data_augmentation/blur
+python data_augmentation/blur.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset
 # Generate images with adjusted brightness
-python data_augmentation/brightness_adjustment.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset --threshold 170
 python data_augmentation/brightness_adjustment.py --input data/data_augmentation/full_dataset --output data/data_augmentation/brightness_box --threshold 170
+python data_augmentation/brightness_adjustment.py --input data/data_augmentation/full_dataset --output data/data_augmentation/full_dataset --threshold 170
 # Data Augmentation with mosaic
 python data_augmentation/mosaic.py --input data/data_augmentation/full_dataset --output data/data_augmentation/mosaic --num_images 10000
 python data_augmentation/mosaic4img.py --input data/data_augmentation/full_dataset --output data/data_augmentation/mosaic --num_images 10000
