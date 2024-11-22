@@ -1,6 +1,6 @@
 # IAI: SoICT Hackathon 2024 NAVER Vehicle Detection
 
-Repo của đội thi (insert name here) tại SoICT 2024 NAVER Track - Vehicle Detection
+Repo của đội thi Sharkode tại SoICT 2024 NAVER Track - Vehicle Detection
 
 ## Hướng dẫn setup workspace
 
@@ -8,6 +8,43 @@ Repo của đội thi (insert name here) tại SoICT 2024 NAVER Track - Vehicle 
 1. Tạo một môi trường Conda với Python version 3.10.15
 2. Chạy `pip install -r requirements.txt`
 3. Download data bằng cách chạy script `bash scripts/download_data.sh`
+
+## Vào môi trường docker
+- Gọi lệnh `docker run -it --rm --name open-mmlab --gpus all open-mmlab`
+
+## Chuẩn bị dữ liệu
+- Chạy lệnh `bash scripts/prepare_data.sh`
+- Chạy lệnh `bash scripts/prepare_training_detection_data.sh`
+
+## Huấn luyện mô hình detection
+
+Trước hết, cần truy cập vào folder: `cd models/mmdetection`
+
+### Một GPU
+
+- Chạy lệnh `bash tools/dist_train_single_gpu.sh projects/CO-DETR/configs/codino/soict_co_dino_5scale_swin_l_16xb1_16e_o365tococo.py 0`
+
+### Nhiều GPU
+
+- Chạy lệnh `bash tools/dist_train.sh projects/CO-DETR/configs/codino/soict_co_dino_5scale_swin_l_16xb1_16e_o365tococo.py <no_of_gpus>}`
+
+## Infer mô hình detection trên tập test
+
+### Một GPU
+
+- Chạy lệnh `bash tools/dist_test_single_gpu.sh projects/CO-DETR/configs/codino/soict_co_dino_5scale_swin_l_16xb1_16e_o365tococo.py work_dirs/epoch_18.pth 0`
+
+### Nhiều GPU
+
+- Chạy lệnh `bash tools/dist_test.sh projects/CO-DETR/configs/codino/soict_co_dino_5scale_swin_l_16xb1_16e_o365tococo.py work_dirs/epoch_18.pth <no_of_gpus>`
+
+Sau khi infer dữ liệu xong, cần trích xuất file `detection_predict.txt` ra bằng lệnh `bash results2final.sh`
+
+## Chạy hậu xử lý
+
+- Đầu tiên, di chuyển lại về thư mục gốc `cd ../..`, và copy, đổi tên file `detection_predict.txt` ra thư mục gốc với lệnh: `cd models/mmdetection/detection_predict.txt ./predict_18.txt`
+- Chạy lệnh `bash scripts/prepare_post_process_data.sh <predict_file>` để khởi tạo cấu trúc thư mục
+- Chạy lệnh `bash scripts/post_process.sh` để chạy các bước hậu xử lý. Đầu ra sẽ là file `predict.txt` mới sau hậu xử lý, và là kết quả dự đoán cuối cùng của nhóm.
 
 ## Cấu trúc tổ chức thư mục của data
 ```bash
@@ -63,13 +100,6 @@ nighttime_labels_updated: nighttime labels after being fixed (4 -> 0, 5 -> 1, 6 
 public_test_images: puclic test images  
 all_images: daytime images + nighttime images  
 all_labels: daytime labels + nighttime labels (fixed)  
-
-## Chạy hậu xử lý
-
-- Yêu cầu có file predict.txt kết quả của mô hình detection
-- Chạy lệnh `bash scripts/download_reid_weight.sh` để tải trọng số mô hình ReID
-- Chạy lệnh `bash scripts/prepare_post_process_data.sh <predict_file>` để khởi tạo cấu trúc thư mục
-- Chạy lệnh `bash scripts/post_process.sh` để chạy các bước hậu xử lý. Đầu ra sẽ là file `predict.txt` mới sau hậu xử lý.
 
 ## Hướng dẫn push code mô hình
 
