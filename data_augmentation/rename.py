@@ -1,39 +1,38 @@
 import os
 import argparse
 
-def rename_files_in_place(folder_path, prefix="file", start_index=1):
-    # Lấy danh sách các file trong thư mục
+def rename_images_and_labels(folder_path, prefix):
+    # Lấy danh sách file trong folder
     files = os.listdir(folder_path)
+    images = [f for f in files if f.lower().endswith('.jpg')]
+    labels = [f for f in files if f.lower().endswith('.txt')]
+
+    images.sort()
+    labels.sort()
+
+    # Kiểm tra số lượng file ảnh và label có khớp nhau không
+    if len(images) != len(labels):
+        print("Số lượng ảnh và label không khớp. Kiểm tra lại folder.")
+        return
+
+    # Đổi tên file ảnh và label
+    for idx, (img, lbl) in enumerate(zip(images, labels)):
+        new_name = f"{prefix}_{idx:04d}"  # Định dạng tên mới
+        img_ext = os.path.splitext(img)[1]
+        lbl_ext = os.path.splitext(lbl)[1]
+
+        # Đổi tên file
+        os.rename(os.path.join(folder_path, img), os.path.join(folder_path, new_name + img_ext))
+        os.rename(os.path.join(folder_path, lbl), os.path.join(folder_path, new_name + lbl_ext))
+
+    print(f"Đã đổi tên {len(images)} cặp ảnh và label trong folder {folder_path}.")
     
-    # Sắp xếp các file để đảm bảo thứ tự nếu cần
-    files.sort()
-
-    # Đổi tên từng file theo format mới
-    for index, filename in enumerate(files, start=start_index):
-        # Tách đuôi file
-        file_name = os.path.splitext(filename)[0]
-        file_extension = os.path.splitext(filename)[1]
-        
-        # Tạo tên file mới theo format
-        new_name = f"{prefix}_{file_name}{file_extension}"
-        
-        # Đường dẫn đầy đủ của file cũ và file mới
-        old_path = os.path.join(folder_path, filename)
-        new_path = os.path.join(folder_path, new_name)
-
-        # Đổi tên file nếu tên mới chưa tồn tại (để tránh lỗi ghi đè)
-        if not os.path.exists(new_path):
-            os.rename(old_path, new_path)
-            print(f"Đã đổi tên: {filename} -> {new_name}")
-        else:
-            print(f"Tên file {new_name} đã tồn tại, bỏ qua.")
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description = "Rename data augmentation")
-    parser.add_argument('--input', type=str, help="Path to the input data folder")
-    parser.add_argument('--prefix', type = str, help="New name for data augmentation")
+    parser = argparse.ArgumentParser(description="Rename for dataset format prefix_xxx")
+    parser.add_argument("--input", type=str, help="Path to the input data folder")
+    parser.add_argument("--prefix", type=str, help="New name for dataset augmentation")
     args = parser.parse_args()
 
     dataset_folder = args.input
     prefix = args.prefix
-    rename_files_in_place(dataset_folder, prefix, start_index=1)
+    rename_images_and_labels(dataset_folder, prefix)
