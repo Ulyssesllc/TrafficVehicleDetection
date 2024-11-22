@@ -1,5 +1,5 @@
 #convert label
-python ./data_augmentation/convert_label.py --input /data/nighttime --output /data/nighttime_fixed
+python ./data_augmentation/convertlLabel.py --input /data/nighttime --output /data/nighttime_fixed
 
 #remove white lines
 python ./data_augmentation/remove.py --input /data/nighttime_fixed --output /data/data_augmentation/remove
