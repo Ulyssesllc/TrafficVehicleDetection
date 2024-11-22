@@ -19,4 +19,5 @@ python -m torch.distributed.launch \
     $CONFIG \
     $CHECKPOINT \
     --launcher pytorch ${@:3} \
-    --tta
+    --tta \
+    --out test_results.pkl

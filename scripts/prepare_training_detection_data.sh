@@ -8,6 +8,7 @@ python sample_val_data.py --annotation_folder_path data/all_labels \
 
 cp -r data/all_images data/training_detection_data
 cp -r data/all_labels data/training_detection_data
+cp -r data/public_test_images data/training_detection_data
 
 # python copy_file.py --source_folder data/augmented_sample_images \
 #                     --destination_folder data/training_detection_data/all_images \
@@ -38,8 +39,9 @@ python test_coco.py -f data/public_test_images \
 
 mkdir models/mmdetection/data
 mkdir models/mmdetection/data/soict_vehicle
-mv  data/training_detection_data/all_images models/mmdetection/data/soict_vehicle
+mv data/training_detection_data/all_images models/mmdetection/data/soict_vehicle
 mv data/training_detection_data/val_all_images models/mmdetection/data/soict_vehicle
+mv data/training_detection_data/public_test_images models/mmdetection/data/soict_vehicle
 mv data/training_detection_data/annotations models/mmdetection/data/soict_vehicle
 
 rm -r data/training_detection_data
