@@ -1,6 +1,6 @@
 #convert label
-python data_augmentation/convertlLabel.py --input /Users/kaiser/Downloads/train_20241023/nighttime --output data/nighttime_fixed
-#data/nighttime
+python data_augmentation/convertlLabel.py --input data/nighttime --output data/nighttime_fixed
+
 #remove white lines
 python data_augmentation/remove.py --input data/nighttime_fixed --output data/data_augmentation/remove
 
