@@ -17,7 +17,7 @@ def rename_images_and_labels(folder_path, prefix):
 
     # Đổi tên file ảnh và label
     for idx, (img, lbl) in enumerate(zip(images, labels)):
-        new_name = f"{prefix}_{idx:04d}"  # Định dạng tên mới
+        new_name = f"{prefix}{idx:04d}"  # Định dạng tên mới
         img_ext = os.path.splitext(img)[1]
         lbl_ext = os.path.splitext(lbl)[1]
 

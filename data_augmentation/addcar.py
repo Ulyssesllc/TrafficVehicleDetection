@@ -72,6 +72,7 @@ iou_threshold = 0.005  # Ngưỡng IoU
 
 def car_process(input_folder, output_car_3, output_car_5, output_car_8, output_folder):
     # Đọc và xử lý các bounding boxes từ các file annotation
+    os.makedirs(output_folder, exist_ok=True)
     for filename in os.listdir(input_folder):
         if filename.endswith('.jpg'):
             if filename.startswith('cam_03'):
@@ -133,8 +134,6 @@ def car_process(input_folder, output_car_3, output_car_5, output_car_8, output_f
                             "x": float(center_x * width_img),
                             "y": float(center_y * height_img)
                         }
-
-    os.makedirs(output_folder, exist_ok=True)
 
     for filename in os.listdir(input_folder):
         if filename.endswith('.jpg'):
