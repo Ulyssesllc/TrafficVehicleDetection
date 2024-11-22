@@ -37,7 +37,7 @@ def process_labels(label_folder):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert labels file YOLO.")
     parser.add_argument(
-        "label_folder",
+        "input",
         type=str,
         help="File YOLO labels path."
     )

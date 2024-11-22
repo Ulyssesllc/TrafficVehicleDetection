@@ -134,12 +134,12 @@ def create_mosaics_with_dense_crops(folder_path, output_folder, crop_h, crop_w, 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Create mosaic images with dense crops.")
-    parser.add_argument("folder_path", type=str, help="Path to the folder containing images and labels.")
-    parser.add_argument("output_folder", type=str, help="Path to the output folder.")
-    parser.add_argument("crop_h", type=int, default = 360, help="Height of the crop.")
-    parser.add_argument("crop_w", type=int, default = 640, help="Width of the crop.")
-    parser.add_argument("num_images", type=int, default = 10000, help="The number of images to be generated.")
+    parser.add_argument("--input", type=str, help="Path to the folder containing images and labels.")
+    parser.add_argument("--output", type=str, help="Path to the output folder.")
+    parser.add_argument("--crop_h", type=int, default = 360, help="Height of the crop.")
+    parser.add_argument("--crop_w", type=int, default = 640, help="Width of the crop.")
+    parser.add_argument("--num_images", type=int, default = 10000, help="The number of images to be generated.")
     
     args = parser.parse_args()
 
-    create_mosaics_with_dense_crops(args.folder_path, args.output_folder, args.crop_h, args.crop_w, args.num_images)
+    create_mosaics_with_dense_crops(args.input, args.output, args.crop_h, args.crop_w, args.num_images)

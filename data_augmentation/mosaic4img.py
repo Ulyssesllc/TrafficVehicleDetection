@@ -84,13 +84,13 @@ def mosaic_augmentation(input_folder, output_folder, num_images):
 
 def main():
     parser = argparse.ArgumentParser(description="Mosaic Augmentation for YOLO Dataset")
-    parser.add_argument("--input_folder", type=str, required=True, help="Path to the input folder containing images and labels")
-    parser.add_argument("--output_folder", type=str, required=True, help="Path to the output folder for saving mosaics")
+    parser.add_argument("--input", type=str, required=True, help="Path to the input folder containing images and labels")
+    parser.add_argument("--output", type=str, required=True, help="Path to the output folder for saving mosaics")
     parser.add_argument("--num_images", type=int, default=10000, help="Number of mosaics to create (default: 10000)")
 
     args = parser.parse_args()
     
-    mosaic_augmentation(args.input_folder, args.output_folder, args.num_images)
+    mosaic_augmentation(args.input, args.output, args.num_images)
 
 if __name__ == "__main__":
     main()
