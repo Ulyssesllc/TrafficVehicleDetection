@@ -6,5 +6,5 @@ PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
 CUDA_VISIBLE_DEVICES=$DEVICE python $(dirname "$0")/test.py \
     $CONFIG \
     $CHECKPOINT \
-    --launcher pytorch ${@:2} \
-    --tta
+    --tta \
+    --out test_results.pkl

@@ -6,5 +6,4 @@ DEVICE=${DEVICE:-0}
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
 CUDA_VISIBLE_DEVICES=$DEVICE python $(dirname "$0")/train.py \
     $CONFIG \
-    --launcher pytorch ${@:1} \
-    --tta
+    ${@:1}
