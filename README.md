@@ -65,7 +65,9 @@ all_images: daytime images + nighttime images
 all_labels: daytime labels + nighttime labels (fixed)  
 
 ## Chạy hậu xử lý
+
 - Yêu cầu có file predict.txt kết quả của mô hình detection
+- Chạy lệnh `bash scripts/download_reid_weight.sh` để tải trọng số mô hình ReID
 - Chạy lệnh `bash scripts/prepare_post_process_data.sh <predict_file>` để khởi tạo cấu trúc thư mục
 - Chạy lệnh `bash scripts/post_process.sh` để chạy các bước hậu xử lý. Đầu ra sẽ là file `predict.txt` mới sau hậu xử lý.
 
