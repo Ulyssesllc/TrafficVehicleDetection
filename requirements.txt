@@ -1,3 +1,6 @@
 gdown
 pyyaml
 tqdm
+scikit-learn
+filterpy
+yacs
