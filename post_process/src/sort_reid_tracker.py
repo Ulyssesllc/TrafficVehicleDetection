@@ -59,7 +59,6 @@ def track_segment(manifest, scene, segment, reid_module, opt):
 
         for box in current_detections:
             cls, x1, y1, x2, y2 = box
-            if filename.startswith("src_2") and cls == 0: continue
             boxes.append([x1, y1, x2, y2, 0])
         
             crop_images.append(Image.fromarray(current_img[y1:y2, x1:x2]))

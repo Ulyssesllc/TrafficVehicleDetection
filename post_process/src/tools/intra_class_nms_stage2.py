@@ -86,7 +86,6 @@ def process_annotations(input_file, output_file, iou_threshold=0.95):
             filename, class_id, x, y, w, h, conf = line.strip().split()
             x, y, w, h, conf = map(float, [x, y, w, h, conf])
             class_id = int(class_id)
-            if filename.startswith('src_2') and class_id == 0: continue
             annotations_by_file[filename][class_id].append({
                 'box': np.array([x, y, w, h]),
                 'confidence': conf,
