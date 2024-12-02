@@ -6,11 +6,11 @@ python post_process/src/track_interpolation.py --manifest_file manifest.json --s
 
 # python post_process/src/tools/concatenate_results.py --manifest_file manifest.json --original_file predict_18.txt
 
-python post_process/src/tools/concatenate_results.py --manifest_file manifest.json \
-                                                    --original_file predict_18.txt \
-                                                    --scenes src_1 \
-                                                    --segments segment0 segment1 segment2 segment3
+# python post_process/src/tools/concatenate_results.py --manifest_file manifest.json \
+#                                                     --original_file predict_18.txt \
+#                                                     --scenes src_1 \
+#                                                     --segments segment0 segment1 segment2 segment3
 
-python post_process/src/tools/intra_class_nms_stage2.py --input_file predict.txt \
-                                           --output_file predict.txt \
-                                           --iou_thresh 0.8
+# python post_process/src/tools/intra_class_nms_stage2.py --input_file predict.txt \
+#                                            --output_file predict.txt \
+#                                            --iou_thresh 0.8

@@ -43,7 +43,7 @@ def track_segment(manifest, scene, segment, reid_module, opt):
         mot_viz_folder = f"post_process/data_reorganized/{scene}/{segment}/mot/viz"
         os.makedirs(mot_viz_folder, exist_ok=True)
 
-    giou_tracker = Sort(max_age=3, min_hits=0, alpha=0.3, giou_threshold=-0.4, reid_threshold=0.45, joint_threshold=0.8)
+    giou_tracker = Sort(max_age=5, min_hits=0, alpha=0.3, giou_threshold=-0.4, reid_threshold=0.3, joint_threshold=0.68)
 
     # Begin tracking
     for idx in range(len(image_paths)):
