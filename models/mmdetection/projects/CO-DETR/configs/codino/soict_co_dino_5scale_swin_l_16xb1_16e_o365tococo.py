@@ -86,8 +86,8 @@ test_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file='annotations/public_test_coco.json',
-        data_prefix=dict(img='public_test_images/'),
+        ann_file='annotations/private_test_coco.json',
+        data_prefix=dict(img='private_test_images/'),
         test_mode=True,
         pipeline=test_pipeline,
         metainfo=metainfo,
@@ -102,7 +102,7 @@ val_evaluator = dict(
 
 test_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + 'annotations/public_test_coco.json',
+    ann_file=data_root + 'annotations/private_test_coco.json',
     metric='bbox',
     format_only=False)
 

@@ -1,0 +1,2 @@
+work_dirs/soict_co_dino_5scale_swin_l_16xb1_16e_o365tococo/predictions.json 1
+work_dirs/soict_co_dino_5scale_swin_l_16xb1_16e_o365tococo_augmented/predictions.json 1
