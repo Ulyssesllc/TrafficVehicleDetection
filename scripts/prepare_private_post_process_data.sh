@@ -18,7 +18,7 @@ mkdir post_process/data_reorganized/all_cams/pruned_boxes
 echo "==========COPYING TEST SET AND PERFORMING INTER-CLASS NMS=========="
 
 # Copy all images to pre-processing folder
-cp -r "data/private_test"/* "post_process/data_reorganized/all_cams/images"
+cp -r "data/private_test_images"/* "post_process/data_reorganized/all_cams/images"
 
 # Splitting predict.txt into individual YOLO box files
 python post_process/src/tools/intra_class_nms.py --input_file $predict_file \
