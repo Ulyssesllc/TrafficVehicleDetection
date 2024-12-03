@@ -13,13 +13,13 @@ cp -r data/private_test_images data/training_detection_data
 
 ####################################################################################
 # If you want to train with augmented data, uncomment the following lines
-# python copy_file.py --source_folder data/augmented_sample_images \
-#                     --destination_folder data/training_detection_data/all_images \
-#                     --extension '.jpg'
+python copy_file.py --source_folder data/augmented_sample_images \
+                    --destination_folder data/training_detection_data/all_images \
+                    --extension '.jpg'
 
-# python copy_file.py --source_folder data/augmented_sample_labels \
-#                     --destination_folder data/training_detection_data/all_labels \
-#                     --extension '.txt'
+python copy_file.py --source_folder data/augmented_sample_labels \
+                    --destination_folder data/training_detection_data/all_labels \
+                    --extension '.txt'
 ####################################################################################
 
 python yolo2coco.py --annotation_folder_path data/training_detection_data/all_labels \
