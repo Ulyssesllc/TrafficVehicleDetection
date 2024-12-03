@@ -159,3 +159,4 @@ configs/local/default.yaml
 data/
 wandb/
 post_process/data_reorganized
+post_process/src/reid/reid_model
