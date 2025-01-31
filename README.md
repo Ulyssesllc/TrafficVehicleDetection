@@ -4,6 +4,8 @@ Repo của đội thi Sharkode đạt giải nhất tại SoICT 2024 NAVER Track
 
 **Note:** Trọng số mô hình không kèm theo và sẽ được cập nhật sau
 
+# Reproduce
+
 ## Vào môi trường docker
 - Gọi lệnh `docker run -it --rm --name open-mmlab --gpus all open-mmlab`
 
@@ -96,12 +98,7 @@ public_test_images: puclic test images
 all_images: daytime images + nighttime images  
 all_labels: daytime labels + nighttime labels (fixed)  
 
-## Hướng dẫn push code mô hình
-
-1. Ngay lập tức, mọi người tự tạo branch riêng cho mình, đặt tên viết tắt rồi checkout và thực hiện thử nghiệm trên các nhánh.
-2. Các thử nghiệm và code model sẽ được push lên từng nhánh riêng. Không động vào nhánh main cho đến khi chốt cách tiếp cận. 
-
-## Team members (so far)
+# Team members
 
 - Lê Vũ Minh
 - Đỗ Đức Huy
