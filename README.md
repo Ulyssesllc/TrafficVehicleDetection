@@ -1,13 +1,8 @@
-# IAI: SoICT Hackathon 2024 NAVER Vehicle Detection
+# Sharkode: SoICT Hackathon 2024 - NAVER Traffic Vehicle Detection
 
-Repo của đội thi Sharkode tại SoICT 2024 NAVER Track - Vehicle Detection
+Repo của đội thi Sharkode đạt giải nhất tại SoICT 2024 NAVER Track - Traffic Vehicle Detection
 
-## Hướng dẫn setup workspace
-
-0. Rất recommend sử dụng Ubuntu và Conda trong quá trình phát triển repo
-1. Tạo một môi trường Conda với Python version 3.10.15
-2. Chạy `pip install -r requirements.txt`
-3. Download data bằng cách chạy script `bash scripts/download_data.sh`
+**Note:** Trọng số mô hình không kèm theo và sẽ được cập nhật sau
 
 ## Vào môi trường docker
 - Gọi lệnh `docker run -it --rm --name open-mmlab --gpus all open-mmlab`
